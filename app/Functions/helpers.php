@@ -194,7 +194,7 @@ if (!function_exists('fluentMailSesConnection')) {
             return $drivers[$connection['sender_email']];
         }
 
-        $region = 'email.' . $connection['region'] . '.amazonaws.com';
+        $region = SimpleEmailService::regionToHost($connection['region']);
 
         $ses = new SimpleEmailService(
             $connection['access_key'],

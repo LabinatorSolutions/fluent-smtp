@@ -148,11 +148,6 @@ class Handler extends BaseHandler
         return $headers;
     }
 
-    protected function getRegion()
-    {
-        return 'email.' . $this->getSetting('region') . '.amazonaws.com';
-    }
-
     public function getValidSenders($config)
     {
         $config = $this->filterConnectionVars($config);
@@ -165,7 +160,7 @@ class Handler extends BaseHandler
     public function getValidSendingIdentities($config)
     {
         $config = $this->filterConnectionVars($config);
-        $region = 'email.' . $config['region'] . '.amazonaws.com';
+        $region = SimpleEmailService::regionToHost($config['region']);
 
         $ses = new SimpleEmailService(
             $config['access_key'],
@@ -304,7 +299,7 @@ class Handler extends BaseHandler
 
     private function getStats($config)
     {
-        $region = 'email.' . $config['region'] . '.amazonaws.com';
+        $region = SimpleEmailService::regionToHost($config['region']);
 
         $ses = new SimpleEmailService(
             $config['access_key'],
